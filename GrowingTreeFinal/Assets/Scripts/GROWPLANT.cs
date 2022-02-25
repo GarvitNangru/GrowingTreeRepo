@@ -54,9 +54,6 @@ public class GROWPLANT : MonoBehaviour
             long temp = Convert.ToInt64(PlayerPrefs.GetString("WaterTime"));
             oldWateredDate = DateTime.FromBinary(temp);
         }
-       
-        //temp = Convert.ToInt64(PlayerPrefs.GetString("lastGrowthTime"));
-        //lastGrowthTime = DateTime.FromBinary(temp);
         wateredProgress = PlayerPrefs.GetFloat("WaterProgress", 0);
         if (oldWateredDate.ToBinary() != 0)
         {
@@ -64,9 +61,10 @@ public class GROWPLANT : MonoBehaviour
             print(remainingWaterTime.TotalMinutes);
             wateredProgress -= 0.01f * (float)remainingWaterTime.TotalMinutes / 2;
         }
+        if(wateredProgress<0)
+            wateredProgress=0;
 
-        
-
+        PlayerPrefs.SetFloat("WaterProgress", wateredProgress);
         WaterBar.fillAmount = wateredProgress / 1;
 
         StartCoroutine(dayCycle());
